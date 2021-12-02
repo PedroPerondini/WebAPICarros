@@ -5,11 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WebAPICarros.Domain\**" />
+    <Content Remove="WebAPICarros.Domain\**" />
+    <EmbeddedResource Remove="WebAPICarros.Domain\**" />
+    <None Remove="WebAPICarros.Domain\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="WebAPICarros.Domain\WebAPICarros.Domain.csproj" />
   </ItemGroup>
 
 </Project>
