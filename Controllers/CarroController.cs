@@ -17,13 +17,13 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<CarroModel>> Get()
+        public ActionResult<List<CarroModel>> GetCarro()
         {
             return _carrosServices.GetCarro();
         }
 
         [HttpGet("{id:length(24)}", Name = "GetCarroById")]
-        public ActionResult<CarroModel> Get (int id)
+        public ActionResult<CarroModel> GetCarroById (int id)
         {
             var carro = _carrosServices.GetCarroById(id);
 
@@ -34,7 +34,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CarroModel> Create(CarroModel carro)
+        public ActionResult<CarroModel> CreateCarro (CarroModel carro)
         {
             _carrosServices.CreateCarro(carro);
 
@@ -42,7 +42,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(int id, CarroModel carroIn)
+        public IActionResult UpdateCarroById(int id, CarroModel carroIn)
         {
             var carro = _carrosServices.GetCarroById(id);
 
@@ -55,7 +55,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteCarroById(int id)
         {
             var carro = _carrosServices.GetCarroById(id);
 

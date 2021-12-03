@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace WebAPICarros.Domain.Model
 {
@@ -19,7 +15,13 @@ namespace WebAPICarros.Domain.Model
         public int Potencia { get; set; }
         public int Torque { get; set; }
         public double ZeroACem { get; set; }
-        public DateTime AnoDeFabricacao { get; set; }
+        public string AnoDeFabricacao { get; set; }
         public string Nacionalidade { get; set; }
+        public double LitragemMotor { get; set; }
+        public int VelocidadeFinal { get; set; }
+        public int ConsumoCombustivel { get; set; }
+        public string Aspiracao { get; set; }
+        public string Combustivel { get; set; }
+
     }
 }
