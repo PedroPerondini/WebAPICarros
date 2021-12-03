@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPICarros.Domain.Model
 {
@@ -8,8 +9,6 @@ namespace WebAPICarros.Domain.Model
     {
         [BsonId]
         public int Id { get; set; }
-        [BsonElement("Key")]
-        public Guid Key { get; set; }
         public string Fabricante { get; set; }
         public string Modelo { get; set; }
         public int Potencia { get; set; }

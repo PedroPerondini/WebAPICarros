@@ -34,10 +34,9 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CarroModel> CreateCarro (CarroModel carro)
+        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro)
         {
             _carrosServices.CreateCarro(carro);
-
             return carro;
         }
 
