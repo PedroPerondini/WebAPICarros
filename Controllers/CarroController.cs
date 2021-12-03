@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +72,12 @@ namespace WebAPICarros.Controllers
         public async Task<ActionResult<CarroModel>> PostCarro([FromBody] CarroModel carroModel)
         {
             _context.CarroModels.Add(carroModel);
+
+            if (CarroExistsById(carroModel.Id))
+            {
+                return BadRequest($"O ID:{carroModel.Id} informado já existe");
+            }
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCarroById", new { id = carroModel.Id }, carroModel);
