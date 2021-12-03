@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebAPICarros.Domain.Model
 {
     public class CarroModel
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public int Id { get; set; }
+        [BsonElement("Key")]
         public Guid Key { get; set; }
         public string Fabricante { get; set; }
         public string Modelo { get; set; }
