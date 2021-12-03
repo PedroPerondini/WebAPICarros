@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPICarros.Domain.Model
 {
-    public class CarModel
+    public class CarroModel
     {
        public Guid Id { get; set; }
         public string Fabricante { get; set; }

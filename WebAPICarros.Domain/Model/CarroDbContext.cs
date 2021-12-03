@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPICarros.Domain.Model
 {
-    public class CarDbContext : DbContext
+    public class CarroDbContext : DbContext
     {
-        public CarDbContext(DbContextOptions<CarDbContext> options) : base(options)
+        public CarroDbContext(DbContextOptions<CarroDbContext> options) : base(options)
         { }
 
-        public DbSet<CarModel> CarModels { get; set; } = null!;
+        public DbSet<CarroModel> CarroModels { get; set; } = null!;
     }
 }
