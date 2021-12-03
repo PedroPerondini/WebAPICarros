@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Driver;
 using WebAPICarros.Domain.Model;
 using WebAPICarros.Domain.Model.Interfaces;
@@ -21,7 +18,7 @@ namespace WebAPICarros.Core.Services
             _carro = database.GetCollection<CarroModel>(settings.CarroCollectionName);
         }
 
-        public List<CarroModel> Get()
+        public List<CarroModel> GetCarro()
         {
             try
             {
@@ -34,7 +31,7 @@ namespace WebAPICarros.Core.Services
             }
         }
 
-        public CarroModel Get(int id)
+        public CarroModel GetCarroById(int id)
         {
             try
             {
@@ -47,7 +44,7 @@ namespace WebAPICarros.Core.Services
             }
         } 
 
-        public CarroModel Create (CarroModel carroModel)
+        public CarroModel CreateCarro (CarroModel carroModel)
         {
             try
             {
@@ -61,7 +58,7 @@ namespace WebAPICarros.Core.Services
             }
         }
 
-        public void Update(int id, CarroModel carroModel)
+        public void UpdateCarroById(int id, CarroModel carroModel)
         {
             try
             {
@@ -74,7 +71,7 @@ namespace WebAPICarros.Core.Services
             }
         }
 
-        public void Remove(CarroModel carroModel)
+        public void RemoveCarro(CarroModel carroModel)
         {
             try
             {
@@ -87,7 +84,7 @@ namespace WebAPICarros.Core.Services
             }
         }
 
-        public void Remove(int id)
+        public void RemoveCarroById(int id)
         {
             try
             {

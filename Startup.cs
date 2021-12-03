@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
 using WebAPICarros.Domain.Model.Interfaces;
 
@@ -26,6 +27,7 @@ namespace WebAPICarros
             services.Configure<CarroDbSettings>(Configuration.GetSection(nameof(CarroDbSettings)));
 
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CarroDbSettings>>().Value);
+            services.AddSingleton<CarrosServices>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

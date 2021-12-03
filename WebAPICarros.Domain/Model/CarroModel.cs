@@ -11,7 +11,6 @@ namespace WebAPICarros.Domain.Model
     public class CarroModel
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public int Id { get; set; }
         [BsonElement("Key")]
         public Guid Key { get; set; }
