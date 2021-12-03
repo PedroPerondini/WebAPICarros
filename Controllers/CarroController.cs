@@ -1,107 +1,70 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
 
 namespace WebAPICarros.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarroController : ControllerBase
+    public class CarroController : Controller
     {
-        private readonly CarroDbContext _context;
+        private readonly CarrosServices _carrosServices;
 
-        public CarroController(CarroDbContext context)
+        public CarroController(CarrosServices carrosServices)
         {
-            _context = context;
+            _carrosServices = carrosServices;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarroModel>>> GetCarro()
+        public ActionResult<List<CarroModel>> Get()
         {
-            return await _context.CarroModels.ToListAsync();
+            return _carrosServices.GetCarro();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarroModel>> GetCarroById(int id)
+        [HttpGet("{id:length(24)}", Name = "GetCarroById")]
+        public ActionResult<CarroModel> Get (int id)
         {
-            var carroModel = await _context.CarroModels.FindAsync(id);
+            var carro = _carrosServices.GetCarroById(id);
 
-            if (carroModel == null)
-            {
+            if (carro == null)
                 return NotFound();
-            }
 
-            return carroModel;
-        }
-
-        
-        [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizaCarro(int id, CarroModel carroModel)
-        {
-            if (id != carroModel.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(carroModel).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarroExistsById(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return carro;
         }
 
         [HttpPost]
-        public async Task<ActionResult<CarroModel>> PostCarro([FromBody] CarroModel carroModel)
+        public ActionResult<CarroModel> Create(CarroModel carro)
         {
-            _context.CarroModels.Add(carroModel);
+            _carrosServices.CreateCarro(carro);
 
-            if (CarroExistsById(carroModel.Id))
-            {
-                return BadRequest($"O ID:{carroModel.Id} informado já existe");
-            }
-
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCarroById", new { id = carroModel.Id }, carroModel);
+            return carro;
         }
 
-        
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarroById(int id)
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(int id, CarroModel carroIn)
         {
-            var carroModel = await _context.CarroModels.FindAsync(id);
-            if (carroModel == null)
-            {
-                return NotFound();
-            }
+            var carro = _carrosServices.GetCarroById(id);
 
-            _context.CarroModels.Remove(carroModel);
-            await _context.SaveChangesAsync();
+            if (carro == null)
+                return NotFound();
+
+            _carrosServices.UpdateCarroById(id, carroIn);
 
             return NoContent();
         }
 
-        private bool CarroExistsById(int id)
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(int id)
         {
-            return _context.CarroModels.Any(e => e.Id == id);
+            var carro = _carrosServices.GetCarroById(id);
+
+            if (carro == null)
+                return NotFound();
+
+            _carrosServices.RemoveCarroById(carro.Id);
+
+            return NoContent();
         }
     }
 }
