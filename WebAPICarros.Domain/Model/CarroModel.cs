@@ -8,7 +8,8 @@ namespace WebAPICarros.Domain.Model
 {
     public class CarroModel
     {
-       public Guid Id { get; set; }
+        public int Id { get; set; }
+        public Guid Key { get; set; }
         public string Fabricante { get; set; }
         public string Modelo { get; set; }
         public int Potencia { get; set; }
