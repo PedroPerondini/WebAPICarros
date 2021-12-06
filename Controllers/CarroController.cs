@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace WebAPICarros.Controllers
 {

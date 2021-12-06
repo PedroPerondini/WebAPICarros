@@ -15,6 +15,5 @@
         public double ConsumoCombustivel { get; set; }
         public string Aspiracao { get; set; }
         public string Combustivel { get; set; }
-
     }
 }
