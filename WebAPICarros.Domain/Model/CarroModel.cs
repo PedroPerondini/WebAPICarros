@@ -1,13 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace WebAPICarros.Domain.Model
+﻿namespace WebAPICarros.Domain.Model
 {
     public class CarroModel
     {
-        [BsonId]
         public int Id { get; set; }
         public string Fabricante { get; set; }
         public string Modelo { get; set; }
@@ -18,7 +12,7 @@ namespace WebAPICarros.Domain.Model
         public string Nacionalidade { get; set; }
         public double LitragemMotor { get; set; }
         public int VelocidadeFinal { get; set; }
-        public int ConsumoCombustivel { get; set; }
+        public double ConsumoCombustivel { get; set; }
         public string Aspiracao { get; set; }
         public string Combustivel { get; set; }
 

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WebAPICarros.Controllers
 {
@@ -17,20 +19,17 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<CarroModel>> GetCarro()
+        [Route("Id")]
+        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro)
         {
-            return _carrosServices.GetCarro();
-        }
 
-        [HttpGet("{id:length(24)}", Name = "GetCarroById")]
-        public ActionResult<CarroModel> GetCarroById (int id)
-        {
-            var carro = _carrosServices.GetCarroById(id);
+            int idCarro = carro.Id;
+            var carroResponse = _carrosServices.GetCarroById(idCarro);
 
-            if (carro == null)
+            if (String.IsNullOrEmpty(idCarro.ToString()))
                 return NotFound();
 
-            return carro;
+            return carroResponse;
         }
 
         [HttpPost]
@@ -40,30 +39,19 @@ namespace WebAPICarros.Controllers
             return carro;
         }
 
-        [HttpPut("{id:length(24)}")]
-        public IActionResult UpdateCarroById(int id, CarroModel carroIn)
-        {
-            var carro = _carrosServices.GetCarroById(id);
 
-            if (carro == null)
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult DeleteCarroById([FromBody] CarroModel carro)
+        {
+            int idCarro = carro.Id;
+
+            if (String.IsNullOrEmpty(idCarro.ToString()))
                 return NotFound();
 
-            _carrosServices.UpdateCarroById(id, carroIn);
+            _carrosServices.RemoveCarroById(idCarro);
 
-            return NoContent();
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult DeleteCarroById(int id)
-        {
-            var carro = _carrosServices.GetCarroById(id);
-
-            if (carro == null)
-                return NotFound();
-
-            _carrosServices.RemoveCarroById(carro.Id);
-
-            return NoContent();
+            return Ok("O carro foi deletado com sucesso!");
         }
     }
 }

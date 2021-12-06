@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using WebAPICarros.Domain.Model;
 using WebAPICarros.Domain.Model.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WebAPICarros.Core.Services
 {
@@ -18,24 +20,12 @@ namespace WebAPICarros.Core.Services
             _carro = database.GetCollection<CarroModel>(settings.CarroCollectionName);
         }
 
-        public List<CarroModel> GetCarro()
-        {
-            try
-            {
-                return _carro.Find(c => true).ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
 
-        public CarroModel GetCarroById(int id)
+        public CarroModel GetCarroById (int id)
         {
             try
             {
-                return _carro.Find<CarroModel>(carroModel => carroModel.Id == id).FirstOrDefault();
+                return _carro.Find(c => c.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -63,19 +53,6 @@ namespace WebAPICarros.Core.Services
             try
             {
                 _carro.ReplaceOne(carroModel => carroModel.Id == id, carroModel);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        public void RemoveCarro(CarroModel carroModel)
-        {
-            try
-            {
-                _carro.DeleteOne(carroModel => carroModel.Id == carroModel.Id);
             }
             catch (Exception e)
             {
