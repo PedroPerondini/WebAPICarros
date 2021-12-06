@@ -23,7 +23,13 @@ namespace WebAPICarros.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Os parâmetros informados são inválidos");
+                }
+
                 _carrosServices.CreateCarro(carro);
+
                 return carro;
             }
             catch (Exception e)
@@ -44,7 +50,9 @@ namespace WebAPICarros.Controllers
                 var carroResponse = _carrosServices.GetCarroById(idCarro);
 
                 if (String.IsNullOrEmpty(idCarro.ToString()))
-                    return NotFound();
+                {
+                    throw new Exception("Não foi informado um ID válido na requisição");
+                }
 
                 return carroResponse;
             }
@@ -64,7 +72,9 @@ namespace WebAPICarros.Controllers
                 int idCarro = carro.Id;
 
                 if (String.IsNullOrEmpty(idCarro.ToString()))
-                    return NotFound();
+                {
+                    throw new Exception("Não foi informado um ID válido na requisição");
+                }
 
                 _carrosServices.RemoveCarroById(idCarro);
 
