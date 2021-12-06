@@ -18,40 +18,63 @@ namespace WebAPICarros.Controllers
             _carrosServices = carrosServices;
         }
 
+        [HttpPost]
+        public ActionResult<CarroModel> CreateCarro([FromBody] CarroModel carro)
+        {
+            try
+            {
+                _carrosServices.CreateCarro(carro);
+                return carro;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         [HttpGet]
         [Route("Id")]
         public ActionResult<CarroModel> GetById([FromBody] CarroModel carro)
         {
 
-            int idCarro = carro.Id;
-            var carroResponse = _carrosServices.GetCarroById(idCarro);
+            try
+            {
+                int idCarro = carro.Id;
+                var carroResponse = _carrosServices.GetCarroById(idCarro);
 
-            if (String.IsNullOrEmpty(idCarro.ToString()))
-                return NotFound();
+                if (String.IsNullOrEmpty(idCarro.ToString()))
+                    return NotFound();
 
-            return carroResponse;
+                return carroResponse;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-
-        [HttpPost]
-        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro)
-        {
-            _carrosServices.CreateCarro(carro);
-            return carro;
-        }
-
 
         [HttpDelete]
         [Route("Delete")]
         public IActionResult DeleteCarroById([FromBody] CarroModel carro)
         {
-            int idCarro = carro.Id;
+            try
+            {
+                int idCarro = carro.Id;
 
-            if (String.IsNullOrEmpty(idCarro.ToString()))
-                return NotFound();
+                if (String.IsNullOrEmpty(idCarro.ToString()))
+                    return NotFound();
 
-            _carrosServices.RemoveCarroById(idCarro);
+                _carrosServices.RemoveCarroById(idCarro);
 
-            return Ok("O carro foi deletado com sucesso!");
+                return Ok("O carro foi deletado com sucesso!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
