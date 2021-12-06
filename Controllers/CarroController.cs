@@ -34,7 +34,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpGet]
-        [Route("Id")]
+        [Route("GetId")]
         public ActionResult<CarroModel> GetById([FromBody] CarroModel carro)
         {
 
@@ -56,7 +56,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete")]
+        [Route("DeleteId")]
         public IActionResult DeleteCarroById([FromBody] CarroModel carro)
         {
             try
