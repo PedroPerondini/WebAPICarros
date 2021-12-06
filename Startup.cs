@@ -23,9 +23,7 @@ namespace WebAPICarros
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<CarroDbContext>(opt => opt.UseInMemoryDatabase("CarroDB"));
             services.Configure<CarroDbSettings>(Configuration.GetSection(nameof(CarroDbSettings)));
-
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CarroDbSettings>>().Value);
             services.AddSingleton<CarrosServices>();
             services.AddControllers();
