@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebAPICarros.Domain.Model
+﻿namespace WebAPICarros.Domain.Model
 {
     public class CarroModel
     {
         public int Id { get; set; }
-        public Guid Key { get; set; }
         public string Fabricante { get; set; }
         public string Modelo { get; set; }
         public int Potencia { get; set; }
         public int Torque { get; set; }
         public double ZeroACem { get; set; }
-        public DateTime AnoDeFabricacao { get; set; }
+        public string AnoDeFabricacao { get; set; }
         public string Nacionalidade { get; set; }
+        public double LitragemMotor { get; set; }
+        public int VelocidadeFinal { get; set; }
+        public double ConsumoCombustivel { get; set; }
+        public string Aspiracao { get; set; }
+        public string Combustivel { get; set; }
     }
 }

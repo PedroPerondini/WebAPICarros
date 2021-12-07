@@ -1,103 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
 
 namespace WebAPICarros.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarroController : ControllerBase
+    public class CarroController : Controller
     {
-        private readonly CarroDbContext _context;
+        private readonly CarrosServices _carrosServices;
 
-        public CarroController(CarroDbContext context)
+        public CarroController(CarrosServices carrosServices)
         {
-            _context = context;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarroModel>>> GetCarro()
-        {
-            return await _context.CarroModels.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarroModel>> GetCarroById(int id)
-        {
-            var carroModel = await _context.CarroModels.FindAsync(id);
-
-            if (carroModel == null)
-            {
-                return NotFound();
-            }
-
-            return carroModel;
-        }
-
-        
-        [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizaCarro(int id, CarroModel carroModel)
-        {
-            if (id != carroModel.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(carroModel).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarroExistsById(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            _carrosServices = carrosServices;
         }
 
         [HttpPost]
-        public async Task<ActionResult<CarroModel>> PostCarro([FromBody] CarroModel carroModel)
+        public ActionResult<CarroModel> CreateCarro([FromBody] CarroModel carro)
         {
-            _context.CarroModels.Add(carroModel);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCarroById", new { id = carroModel.Id }, carroModel);
-        }
-
-        
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarroById(int id)
-        {
-            var carroModel = await _context.CarroModels.FindAsync(id);
-            if (carroModel == null)
+            try
             {
-                return NotFound();
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Os parâmetros informados são inválidos");
+                }
+
+                _carrosServices.CreateCarro(carro);
+
+                return carro;
             }
-
-            _context.CarroModels.Remove(carroModel);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        private bool CarroExistsById(int id)
+        [HttpGet]
+        [Route("GetId")]
+        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro)
         {
-            return _context.CarroModels.Any(e => e.Id == id);
+
+            try
+            {
+                int idCarro = carro.Id;
+                var carroResponse = _carrosServices.GetCarroById(idCarro);
+
+                if (String.IsNullOrEmpty(idCarro.ToString()))
+                {
+                    throw new Exception("Não foi informado um ID válido na requisição");
+                }
+
+                return carroResponse;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteId")]
+        public IActionResult DeleteCarroById([FromBody] CarroModel carro)
+        {
+            try
+            {
+                int idCarro = carro.Id;
+
+                if (String.IsNullOrEmpty(idCarro.ToString()))
+                {
+                    throw new Exception("Não foi informado um ID válido na requisição");
+                }
+
+                _carrosServices.RemoveCarroById(idCarro);
+
+                return Ok("O carro foi deletado com sucesso!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
