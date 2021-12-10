@@ -26,6 +26,7 @@ namespace WebAPICarros
             services.Configure<CarroDbSettings>(Configuration.GetSection(nameof(CarroDbSettings)));
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CarroDbSettings>>().Value);
             services.AddSingleton<CarrosServices>();
+            services.AddSingleton<Token>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

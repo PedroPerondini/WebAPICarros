@@ -20,9 +20,9 @@ namespace WebAPICarros.Controllers
 
 
         [HttpPost]
-        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] Token token)
+        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string token)
         {
-            if (_token != token)
+            if (_token.ToString() != token)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
@@ -50,10 +50,10 @@ namespace WebAPICarros.Controllers
 
         [HttpGet]
         [Route("GetId")]
-        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] Token token)
+        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] string token)
         {
 
-            if (_token != token)
+            if (_token.ToString() != token)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
@@ -82,9 +82,9 @@ namespace WebAPICarros.Controllers
 
         [HttpDelete]
         [Route("DeleteId")]
-        public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] Token token)
+        public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] string token)
         {
-            if (_token != token)
+            if (_token.ToString() != token)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
