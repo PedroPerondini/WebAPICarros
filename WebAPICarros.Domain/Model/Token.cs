@@ -1,6 +1,4 @@
-﻿using WebAPICarros.Domain.Model.Interfaces;
-
-namespace WebAPICarros.Domain.Model
+﻿namespace WebAPICarros.Domain.Model
 {
     public class Token
     {
