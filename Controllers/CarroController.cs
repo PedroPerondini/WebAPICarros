@@ -18,97 +18,87 @@ namespace WebAPICarros.Controllers
             _token = token;
         }
 
-
         [HttpPost]
-        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string token)
+        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
-            if (_token.ToString() != token)
+            if (_token.ToString() != requestToken)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
 
-            else
+            try
             {
-                try
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        throw new Exception("Os parâmetros informados são inválidos");
-                    }
-
-                    _carrosServices.CreateCarro(carro);
-
-                    return carro;
+                    throw new Exception("Os parâmetros informados são inválidos");
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+
+                _carrosServices.CreateCarro(carro);
+
+                return carro;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
         [HttpGet]
         [Route("GetId")]
-        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] string token)
+        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
 
-            if (_token.ToString() != token)
+            if (_token.ToString() != requestToken)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
 
-            else
+            try
             {
-                try
-                {
-                    int idCarro = carro.Id;
-                    var carroResponse = _carrosServices.GetCarroById(idCarro);
+                int idCarro = carro.Id;
+                var carroResponse = _carrosServices.GetCarroById(idCarro);
 
-                    if (String.IsNullOrEmpty(idCarro.ToString()))
-                    {
-                        throw new Exception("Não foi informado um ID válido na requisição");
-                    }
-
-                    return carroResponse;
-                }
-                catch (Exception e)
+                if (String.IsNullOrEmpty(idCarro.ToString()))
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    throw new Exception("Não foi informado um ID válido na requisição");
                 }
+
+                return carroResponse;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
         [HttpDelete]
         [Route("DeleteId")]
-        public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] string token)
+        public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
-            if (_token.ToString() != token)
+            if (_token.ToString() != requestToken)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
 
-            else
+            try
             {
-                try
+                int idCarro = carro.Id;
+
+                if (String.IsNullOrEmpty(idCarro.ToString()))
                 {
-                    int idCarro = carro.Id;
-
-                    if (String.IsNullOrEmpty(idCarro.ToString()))
-                    {
-                        throw new Exception("Não foi informado um ID válido na requisição");
-                    }
-
-                    _carrosServices.RemoveCarroById(idCarro);
-
-                    return Ok("O carro foi deletado com sucesso!");
+                    throw new Exception("Não foi informado um ID válido na requisição");
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+
+                _carrosServices.RemoveCarroById(idCarro);
+
+                return Ok("O carro foi deletado com sucesso!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }
