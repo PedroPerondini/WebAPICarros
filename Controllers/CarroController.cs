@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Cors;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
 
 namespace WebAPICarros.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors]
     [ApiController]
     public class CarroController : Controller
     {
