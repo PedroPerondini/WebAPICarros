@@ -10,18 +10,15 @@ namespace WebAPICarros.Controllers
     public class CarroController : Controller
     {
         private readonly CarrosServices _carrosServices;
-        private readonly Token _token;
-
-        public CarroController(CarrosServices carrosServices, Token token)
+        public CarroController(CarrosServices carrosServices)
         {
             _carrosServices = carrosServices;
-            _token = token;
         }
 
         [HttpPost]
         public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
-            if (_token.ToString() != requestToken)
+            if (Token.TokenKey != requestToken) 
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
@@ -48,8 +45,7 @@ namespace WebAPICarros.Controllers
         [Route("GetId")]
         public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
-
-            if (_token.ToString() != requestToken)
+            if (Token.TokenKey != requestToken)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }
@@ -77,7 +73,7 @@ namespace WebAPICarros.Controllers
         [Route("DeleteId")]
         public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] string requestToken)
         {
-            if (_token.ToString() != requestToken)
+            if (Token.TokenKey != requestToken)
             {
                 return Unauthorized("Você não está autorizado à realizar essa operação!");
             }

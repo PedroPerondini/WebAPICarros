@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
+using System;
 using WebAPICarros.Domain.Model;
 using WebAPICarros.Domain.Model.Interfaces;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace WebAPICarros.Core.Services
 {
