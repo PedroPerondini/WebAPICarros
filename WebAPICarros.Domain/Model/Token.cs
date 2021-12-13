@@ -4,6 +4,6 @@ namespace WebAPICarros.Domain.Model
 {
     public class Token
     {
-        private readonly string _token = Environment.GetEnvironmentVariable("Token");
+        public static string TokenKey = Environment.GetEnvironmentVariable("Token");
     }
 }
