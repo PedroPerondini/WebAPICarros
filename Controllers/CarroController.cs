@@ -44,8 +44,8 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpGet]
-        [Route("GetId")]
-        public ActionResult<CarroModel> GetById([FromBody] CarroModel carro, [FromHeader] string requestToken)
+        [Route("GetId/{id}")]
+        public ActionResult<CarroModel> GetById (int id, [FromHeader] string requestToken)
         {
             if (Token.TokenKey != requestToken)
             {
@@ -54,10 +54,9 @@ namespace WebAPICarros.Controllers
 
             try
             {
-                int idCarro = carro.Id;
-                var carroResponse = _carrosServices.GetCarroById(idCarro);
+                var carroResponse = _carrosServices.GetCarroById(id);
 
-                if (String.IsNullOrEmpty(idCarro.ToString()))
+                if (String.IsNullOrEmpty(id.ToString()))
                 {
                     throw new Exception("Não foi informado um ID válido na requisição");
                 }
@@ -72,8 +71,8 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteId")]
-        public IActionResult DeleteCarroById([FromBody] CarroModel carro, [FromHeader] string requestToken)
+        [Route("DeleteId/{id}")]
+        public IActionResult DeleteCarroById(int id, [FromHeader] string requestToken)
         {
             if (Token.TokenKey != requestToken)
             {
@@ -82,14 +81,13 @@ namespace WebAPICarros.Controllers
 
             try
             {
-                int idCarro = carro.Id;
 
-                if (String.IsNullOrEmpty(idCarro.ToString()))
+                if (String.IsNullOrEmpty(id.ToString()))
                 {
                     throw new Exception("Não foi informado um ID válido na requisição");
                 }
 
-                _carrosServices.RemoveCarroById(idCarro);
+                _carrosServices.RemoveCarroById(id);
 
                 return Ok("O carro foi deletado com sucesso!");
             }
