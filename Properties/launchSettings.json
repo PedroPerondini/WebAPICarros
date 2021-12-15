@@ -14,11 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "CarroCollectionName": "Carros",
-        "ConnectionString": "mongodb+srv://pedroperondini:senha123@carrosdb.8nwor.mongodb.net/CarrosDB?retryWrites=true&w=majority",
-        "DatabaseName": "CarrosDB",
-        "Token": "bcd40b09-6328-4335-9de9-fd91cbcf46e5"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "WebAPICarros": {
