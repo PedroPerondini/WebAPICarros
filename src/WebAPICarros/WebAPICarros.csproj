@@ -36,7 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="WebAPICarros.Domain\WebAPICarros.Domain.csproj" />
+    <ProjectReference Include="..\WebAPICarros.Core\WebAPICarros.Core.csproj" />
+    <ProjectReference Include="..\WebAPICarros.Domain\WebAPICarros.Domain.csproj" />
   </ItemGroup>
 
 </Project>
