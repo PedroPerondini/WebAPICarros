@@ -20,8 +20,10 @@ namespace WebApiCarros.Repository.Interface
         Task ReplaceOneAsync(TDocument document);
         void DeleteById(string id);
         Task DeleteByIdAsync(string id);
+        Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
 
-        void DeleteMany(Expression<Func<TDocument, bool>>, Filter);
+
+     
 
 
     }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32210.238
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPICarros", "src\WebAPICarros\WebAPICarros.csproj", "{9DD5CE1E-DB48-4FF7-873D-892D2AA0307B}"
 EndProject
@@ -13,7 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4DA326AF-9D4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D5B93576-2F4F-4BB0-A55C-977477038A77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPICarros.Tests", "tests\WebAPICarros.Tests\WebAPICarros.Tests.csproj", "{6C111A54-8DF2-4D62-A2D9-A17EAE286D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPICarros.Tests", "tests\WebAPICarros.Tests\WebAPICarros.Tests.csproj", "{6C111A54-8DF2-4D62-A2D9-A17EAE286D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCarros.Repository", "WebApiCarros.Repository\WebApiCarros.Repository.csproj", "{4FD923C6-3808-4E82-940E-492B3FCB907C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCarros", "WebApiCarros\WebApiCarros.csproj", "{BC653D9C-0702-4E42-A2C2-6A6609E8F9E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,14 @@ Global
 		{6C111A54-8DF2-4D62-A2D9-A17EAE286D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C111A54-8DF2-4D62-A2D9-A17EAE286D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C111A54-8DF2-4D62-A2D9-A17EAE286D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD923C6-3808-4E82-940E-492B3FCB907C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD923C6-3808-4E82-940E-492B3FCB907C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD923C6-3808-4E82-940E-492B3FCB907C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD923C6-3808-4E82-940E-492B3FCB907C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC653D9C-0702-4E42-A2C2-6A6609E8F9E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC653D9C-0702-4E42-A2C2-6A6609E8F9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC653D9C-0702-4E42-A2C2-6A6609E8F9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC653D9C-0702-4E42-A2C2-6A6609E8F9E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +58,7 @@ Global
 		{08EB5228-52DB-405A-AE11-30DAB3CB5C4C} = {4DA326AF-9D4A-4294-886F-A39BE0C9F5FB}
 		{BB1A1F03-5597-46C4-AFFE-C30141809A09} = {4DA326AF-9D4A-4294-886F-A39BE0C9F5FB}
 		{6C111A54-8DF2-4D62-A2D9-A17EAE286D22} = {D5B93576-2F4F-4BB0-A55C-977477038A77}
+		{4FD923C6-3808-4E82-940E-492B3FCB907C} = {4DA326AF-9D4A-4294-886F-A39BE0C9F5FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0B9516E-2F5A-42D9-AD18-FA201A3E80DB}
