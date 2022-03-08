@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WebApiCarros.Repository.Interface;
 using WebAPICarros.Domain.Model;
@@ -13,24 +14,31 @@ namespace WebApiCarros.Repository
 {
     public class MongoRepository<BaseRepository> : IMongoRepository<BaseRepository> where BaseRepository : IBaseRepository
     {
-        private readonly IMongoCollection<CarroModel> _carro;
+        private readonly IMongoCollection<BaseRepository> _carro;
 
         public MongoRepository(IDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _carro = database.GetCollection<CarroModel>(settings.CarroCollectionName);
+            _carro = database.GetCollection<BaseRepository>(settings.CarroCollectionName);
         }
 
         public void DeleteById(string id)
         {
-            throw new NotImplementedException();
+            var objectId = new ObjectId(id);
+            var filter = Builders<BaseRepository>.Filter.Eq(doc => doc.Id, objectId);
+             _carro.FindOneAndDelete(filter);
         }
 
         public Task DeleteByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var objectId = new ObjectId(id);
+                var filter = Builders<BaseRepository>.Filter.Eq(doc => doc.Id, objectId);
+                _carro.FindOneAndDeleteAsync(filter);
+            });
         }
 
         public Task DeleteManyAsync(Expression<Func<BaseRepository, bool>> filterExpression)
@@ -55,7 +63,7 @@ namespace WebApiCarros.Repository
 
         public void InsertOne(BaseRepository document)
         {
-            throw new NotImplementedException();
+            _carro.InsertOne(document);
         }
 
         public Task InsertOneAsync(BaseRepository document)
