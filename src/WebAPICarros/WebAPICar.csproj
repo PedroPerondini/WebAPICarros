@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -36,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebAPICarros.Core\WebAPICarros.Core.csproj" />
-    <ProjectReference Include="..\WebAPICarros.Domain\WebAPICarros.Domain.csproj" />
+    <ProjectReference Include="..\WebAPICarros.Core\WebAPICar.Core.csproj" />
+    <ProjectReference Include="..\WebAPICarros.Domain\WebAPICar.Domain.csproj" />
   </ItemGroup>
 
 </Project>

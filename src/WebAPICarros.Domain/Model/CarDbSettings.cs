@@ -3,7 +3,7 @@ using WebAPICarros.Domain.Model.Interfaces;
 
 namespace WebAPICarros.Domain.Model
 {
-    public class CarroDbSettings : IDatabaseSettings
+    public class CarDbSettings : IDatabaseSettings
     {
        public string CarroCollectionName { get; set; } = Environment.GetEnvironmentVariable("CarroCollectionName");
        public string ConnectionString { get; set; } = Environment.GetEnvironmentVariable("ConnectionString");

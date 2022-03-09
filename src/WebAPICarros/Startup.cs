@@ -24,8 +24,8 @@ namespace WebAPICarros
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.Configure<CarroDbSettings>(Configuration.GetSection(nameof(CarroDbSettings)));
-            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CarroDbSettings>>().Value);
+            services.Configure<CarDbSettings>(Configuration.GetSection(nameof(CarDbSettings)));
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CarDbSettings>>().Value);
             services.AddSingleton<CarrosServices>();
             services.AddSingleton<Token>();
             services.AddControllers();

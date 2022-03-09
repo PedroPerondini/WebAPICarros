@@ -1,6 +1,6 @@
 ﻿namespace WebAPICarros.Domain.Model
 {
-    public class CarroModel
+    public class CarModel
     {
         public int Id { get; set; }
         public string Fabricante { get; set; }

@@ -18,7 +18,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string requestToken)
+        public ActionResult<CarModel> CreateCarro ([FromBody] CarModel carro, [FromHeader] string requestToken)
         {
             if (Token.TokenKey != requestToken) 
             {
@@ -45,7 +45,7 @@ namespace WebAPICarros.Controllers
 
         [HttpGet]
         [Route("GetId/{id}")]
-        public ActionResult<CarroModel> GetById (int id, [FromHeader] string requestToken)
+        public ActionResult<CarModel> GetById (int id, [FromHeader] string requestToken)
         {
             if (Token.TokenKey != requestToken)
             {
