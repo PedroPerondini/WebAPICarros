@@ -3,17 +3,17 @@
     public class CarModel
     {
         public int Id { get; set; }
-        public string Fabricante { get; set; }
-        public string Modelo { get; set; }
-        public int Potencia { get; set; }
+        public string Producer { get; set; }
+        public string Model { get; set; }
+        public int Potency { get; set; }
         public int Torque { get; set; }
         public double ZeroACem { get; set; }
-        public string AnoDeFabricacao { get; set; }
-        public string Nacionalidade { get; set; }
-        public double LitragemMotor { get; set; }
-        public int VelocidadeFinal { get; set; }
-        public double ConsumoCombustivel { get; set; }
-        public string Aspiracao { get; set; }
-        public string Combustivel { get; set; }
+        public string Yearofmanufacture { get; set; }
+        public string Nationality { get; set; }
+        public double EngineLiter { get; set; }
+        public int FinalSpeed { get; set; }
+        public double FuelConsumption { get; set; }
+        public string Aspiration { get; set; }
+        public string Fuel { get; set; }
     }
 }
