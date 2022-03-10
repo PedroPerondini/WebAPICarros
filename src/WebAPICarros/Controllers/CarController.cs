@@ -18,9 +18,9 @@
 //        //}
 
 //        [HttpPost]
-//        public ActionResult<CarModel> CreateCarro ([FromBody] CarModel carro, [FromHeader] string requestToken)
+//        public ActionResult<CarModel> CreateCarro([FromBody] CarModel carro, [FromHeader] string requestToken)
 //        {
-//            if (Token.TokenKey != requestToken) 
+//            if (Token.TokenKey != requestToken)
 //            {
 //                return Unauthorized("Você não está autorizado à realizar essa operação!");
 //            }
@@ -45,7 +45,7 @@
 
 //        [HttpGet]
 //        [Route("GetId/{id}")]
-//        public ActionResult<CarModel> GetById (int id, [FromHeader] string requestToken)
+//        public ActionResult<CarModel> GetById(int id, [FromHeader] string requestToken)
 //        {
 //            if (Token.TokenKey != requestToken)
 //            {

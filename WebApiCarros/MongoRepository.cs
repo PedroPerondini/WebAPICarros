@@ -43,22 +43,28 @@ namespace WebApiCarros.Repository
 
         public Task DeleteManyAsync(Expression<Func<BaseRepository, bool>> filterExpression)
         {
-            throw new NotImplementedException();
+            return Task.Run( () => _carro.DeleteManyAsync(filterExpression));
         }
 
         public Task<BaseRepository> FindByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var objectId = new ObjectId(id);
+                var filter = Builders<BaseRepository>.Filter.Eq(doc => doc.Id, objectId);
+                return _carro.Find(filter).SingleOrDefaultAsync();
+            });
         }
 
         public void InsertMany(ICollection<BaseRepository> documents)
         {
-            throw new NotImplementedException();
+            _carro.InsertMany(documents);
         }
 
-        public Task InsertManyAsync(ICollection<BaseRepository> documents)
+        public virtual async Task InsertManyAsync(ICollection<BaseRepository> documents)
         {
-            throw new NotImplementedException();
+            await _carro.InsertManyAsync(documents);
+              
         }
 
         public void InsertOne(BaseRepository document)
@@ -66,19 +72,21 @@ namespace WebApiCarros.Repository
             _carro.InsertOne(document);
         }
 
-        public Task InsertOneAsync(BaseRepository document)
+        public virtual Task InsertOneAsync(BaseRepository document)
         {
-            throw new NotImplementedException();
+            return Task.Run( () => _carro.InsertOneAsync(document));
+            
         }
 
         public void ReplaceOne(BaseRepository document)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BaseRepository>.Filter.Eq(doc => doc.Id, document.Id);
         }
 
-        public Task ReplaceOneAsync(BaseRepository document)
+        public virtual async Task ReplaceOneAsync(BaseRepository document)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BaseRepository>.Filter.Eq(doc => doc.Id, document.Id);
+            await _carro.FindOneAndReplaceAsync(filter, document);
         }
     }
 }

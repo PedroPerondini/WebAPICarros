@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApiCarros.Repository.Interface
+namespace WebAPICar.Domain.Model
 {
-    public interface IJWTService
+    class UserDbSettings
     {
     }
 }
