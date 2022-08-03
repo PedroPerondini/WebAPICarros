@@ -1,4 +1,6 @@
-﻿namespace WebAPICarros.Domain.Model
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace WebAPICarros.Domain.Model
 {
     public class CarroModel
     {

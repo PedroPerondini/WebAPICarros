@@ -1,8 +1,8 @@
 ﻿namespace WebAPICarros.Domain.Model.Interfaces
 {
-    public interface IDatabaseSettings
+    public interface ICarroDatabaseSettings
     {
-        string CarroCollectionName { get; set; }
+        string CollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

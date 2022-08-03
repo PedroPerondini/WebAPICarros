@@ -1,24 +1,30 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Threading.Tasks;
 using WebAPICarros.Domain.Model;
+using WebAPICarros.Domain.Model.Interfaces;
 using WebAPICarros.Repository.Interfaces;
 
-namespace WebAPICarros.Core.Services
+namespace WebAPICarros.Repository
 {
-    public class CarrosServices : ICarroServices
+    public class CarroRepository : ICarroRepository
     {
-        private readonly ICarroRepository _carroRepository;
+        private readonly IMongoCollection<CarroModel> _carroRepository;
 
-        public CarrosServices(ICarroRepository carroRepository)
+        public CarroRepository(ICarroDatabaseSettings dbSettings)
         {
-            _carroRepository = carroRepository;
+            var client = new MongoClient(dbSettings.ConnectionString);
+            var database = client.GetDatabase(dbSettings.DatabaseName);
+
+            _carroRepository = database.GetCollection<CarroModel>(dbSettings.CollectionName);
         }
 
-        public async Task<CarroModel> GetCarroByIdAsync(int id)
+
+        public async Task<CarroModel> GetCarroById(int id)
         {
             try
             {
-                return await _carroRepository.GetCarroById(id);
+                return await _carroRepository.Find(c => c.Id == id).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -31,7 +37,8 @@ namespace WebAPICarros.Core.Services
         {
             try
             {
-                return await _carroRepository.CreateCarro(carroModel);
+                await _carroRepository.InsertOneAsync(carroModel);
+                return carroModel;
             }
             catch (Exception e)
             {
@@ -44,7 +51,7 @@ namespace WebAPICarros.Core.Services
         {
             try
             {
-                await _carroRepository.UpdateCarroById(id, carroModel);
+                await _carroRepository.ReplaceOneAsync(carroModel => carroModel.Id == id, carroModel);
             }
             catch (Exception e)
             {
@@ -57,7 +64,7 @@ namespace WebAPICarros.Core.Services
         {
             try
             {
-                await _carroRepository.RemoveCarroById(id);
+                await _carroRepository.DeleteOneAsync(carroModel => carroModel.Id == id);
             }
             catch (Exception e)
             {

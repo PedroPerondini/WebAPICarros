@@ -3,6 +3,9 @@ using System;
 using Microsoft.AspNetCore.Cors;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using WebAPICarros.Core.Services.Interfaces;
 
 namespace WebAPICarros.Controllers
 {
@@ -11,20 +14,51 @@ namespace WebAPICarros.Controllers
     [ApiController]
     public class CarroController : Controller
     {
-        private readonly CarrosServices _carrosServices;
-        public CarroController(CarrosServices carrosServices)
+        private readonly ICarroServices _carrosServices;
+        private readonly IUserServices _userServices;
+        private readonly ITokenServices _tokenServices;
+
+        public CarroController(ICarroServices carrosServices,
+                               IUserServices userServices,
+                               ITokenServices tokenServices)
         {
             _carrosServices = carrosServices;
+            _userServices = userServices;
+            _tokenServices = tokenServices;
         }
 
         [HttpPost]
-        public ActionResult<CarroModel> CreateCarro ([FromBody] CarroModel carro, [FromHeader] string requestToken)
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> AuthenticateAsync([FromBody] string username, [FromBody] string password)
         {
-            if (Token.TokenKey != requestToken) 
+            try
             {
-                return Unauthorized("Você não está autorizado à realizar essa operação!");
-            }
+                var user = await _userServices.GetUserAsync(username, password);
 
+                if (user == null)
+                {
+                    return NotFound(new { message = "Usuário ou senha inválidos" });
+                }
+
+                var token = _tokenServices.GenerateToken(user);
+
+                user.Password = "";
+
+                return new { user, token };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("InsertCar")]
+        [Authorize(Roles = "Desenvolvedor")]
+        public async Task<ActionResult<CarroModel>> CreateCarro([FromBody] CarroModel carro)
+        {
             try
             {
                 if (!ModelState.IsValid)
@@ -32,7 +66,7 @@ namespace WebAPICarros.Controllers
                     throw new Exception("Os parâmetros informados são inválidos");
                 }
 
-                _carrosServices.CreateCarro(carro);
+                await _carrosServices.CreateCarro(carro);
 
                 return carro;
             }
@@ -45,21 +79,17 @@ namespace WebAPICarros.Controllers
 
         [HttpGet]
         [Route("GetId/{id}")]
-        public ActionResult<CarroModel> GetById (int id, [FromHeader] string requestToken)
+        [Authorize]
+        public async Task<ActionResult<CarroModel>> GetById(int id)
         {
-            if (Token.TokenKey != requestToken)
-            {
-                return Unauthorized("Você não está autorizado à realizar essa operação!");
-            }
-
             try
             {
-                var carroResponse = _carrosServices.GetCarroById(id);
-
                 if (String.IsNullOrEmpty(id.ToString()))
                 {
                     throw new Exception("Não foi informado um ID válido na requisição");
                 }
+
+                var carroResponse = await _carrosServices.GetCarroByIdAsync(id);
 
                 return carroResponse;
             }
@@ -70,24 +100,43 @@ namespace WebAPICarros.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("DeleteId/{id}")]
-        public IActionResult DeleteCarroById(int id, [FromHeader] string requestToken)
+        [HttpPatch]
+        [Route("UpdateId/{id}")]
+        [Authorize(Roles = "Desenvolvedor")]
+        public async Task<IActionResult> UpdateCarroById(int id, CarroModel carroModel)
         {
-            if (Token.TokenKey != requestToken)
-            {
-                return Unauthorized("Você não está autorizado à realizar essa operação!");
-            }
-
             try
             {
-
                 if (String.IsNullOrEmpty(id.ToString()))
                 {
                     throw new Exception("Não foi informado um ID válido na requisição");
                 }
 
-                _carrosServices.RemoveCarroById(id);
+                await _carrosServices.UpdateCarroById(id, carroModel);
+
+                return Ok("O update do carro foi feito com sucesso");
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteId/{id}")]
+        [Authorize(Roles = "Desenvolvedor")]
+        public async Task<IActionResult> DeleteCarroById(int id)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(id.ToString()))
+                {
+                    throw new Exception("Não foi informado um ID válido na requisição");
+                }
+                
+                await _carrosServices.RemoveCarroById(id);
 
                 return Ok("O carro foi deletado com sucesso!");
             }
