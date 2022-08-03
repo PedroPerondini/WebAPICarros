@@ -9,6 +9,6 @@ namespace WebAPICarros.Core.Services.Interfaces
 {
     public interface ITokenServices
     {
-        string GenerateToken(User user);
+        Task<string> GenerateToken(User user);
     }
 }

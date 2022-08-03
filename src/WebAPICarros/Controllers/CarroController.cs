@@ -1,61 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using WebAPICarros.Core.Services.Interfaces;
 
 namespace WebAPICarros.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [EnableCors]
-    [ApiController]
     public class CarroController : Controller
     {
         private readonly ICarroServices _carrosServices;
-        private readonly IUserServices _userServices;
-        private readonly ITokenServices _tokenServices;
-
-        public CarroController(ICarroServices carrosServices,
-                               IUserServices userServices,
-                               ITokenServices tokenServices)
+        
+        public CarroController(ICarroServices carrosServices)
         {
             _carrosServices = carrosServices;
-            _userServices = userServices;
-            _tokenServices = tokenServices;
         }
 
         [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> AuthenticateAsync([FromBody] string username, [FromBody] string password)
-        {
-            try
-            {
-                var user = await _userServices.GetUserAsync(username, password);
-
-                if (user == null)
-                {
-                    return NotFound(new { message = "Usuário ou senha inválidos" });
-                }
-
-                var token = _tokenServices.GenerateToken(user);
-
-                user.Password = "";
-
-                return new { user, token };
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        [HttpPost]
-        [Route("InsertCar")]
+        [Route("insert")]
         [Authorize(Roles = "Desenvolvedor")]
         public async Task<ActionResult<CarroModel>> CreateCarro([FromBody] CarroModel carro)
         {
@@ -78,7 +44,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpGet]
-        [Route("GetId/{id}")]
+        [Route("getbyid/{id}")]
         [Authorize]
         public async Task<ActionResult<CarroModel>> GetById(int id)
         {
@@ -101,7 +67,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpPatch]
-        [Route("UpdateId/{id}")]
+        [Route("updatebyid/{id}")]
         [Authorize(Roles = "Desenvolvedor")]
         public async Task<IActionResult> UpdateCarroById(int id, CarroModel carroModel)
         {
@@ -125,7 +91,7 @@ namespace WebAPICarros.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteId/{id}")]
+        [Route("deletebyid/{id}")]
         [Authorize(Roles = "Desenvolvedor")]
         public async Task<IActionResult> DeleteCarroById(int id)
         {
