@@ -11,7 +11,7 @@ namespace WebAPICarros.Core.Services
 {
     public class TokenServices : ITokenServices
     {
-        public string GenerateToken(User user)
+        public async Task<string> GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var secret = Encoding.ASCII.GetBytes(JwtTokenSetting.Secret);
