@@ -57,6 +57,7 @@ namespace WebAPICarros.Controllers
             {
                 if (String.IsNullOrEmpty(id.ToString()))
                 {
+                    return BadRequest();
                     throw new Exception("Não foi informado um ID válido na requisição");
                 }
 

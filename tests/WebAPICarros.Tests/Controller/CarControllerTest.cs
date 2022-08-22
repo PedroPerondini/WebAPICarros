@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
@@ -36,9 +37,7 @@ namespace WebAPICarros.Tests.Controller
         {
             //Arrange
             #region Setups
-            _validationResultMock.Setup(setup => setup.IsValid).Returns(true);
             _carroServices.Setup(setup => setup.GetCarroByIdAsync(It.IsAny<int>())).ReturnsAsync(_carFactoryTest.GenerateValidCarModel());
-            _carValidation.Setup(setup => setup.ValidateAsync(It.IsAny<CarroModel>(), CancellationToken.None)).ReturnsAsync(_validationResultMock.Object);
             #endregion
 
             //Act
@@ -56,7 +55,11 @@ namespace WebAPICarros.Tests.Controller
         public async void Given_ValidParameters_When_InsertingCar_Then_ReturnSuccessStatusCode()
         {
             //Arrange
+            #region Setups
+            _validationResultMock.Setup(setup => setup.IsValid).Returns(true);
+            _carValidation.Setup(setup => setup.ValidateAsync(It.IsAny<ValidationContext<CarroModel>>(), CancellationToken.None)).ReturnsAsync(_validationResultMock.Object);
             _carroServices.Setup(setup => setup.CreateCarro(It.IsAny<CarroModel>())).ReturnsAsync(_carFactoryTest.GenerateValidCarModel());
+            #endregion
 
             //Act
             var actionResult = await _carroController.CreateCarro(_carFactoryTest.GenerateValidCarModel());
@@ -67,6 +70,29 @@ namespace WebAPICarros.Tests.Controller
             actionResult.Should().NotBeNull();
             httpResult.Should().BeOfType<OkObjectResult>();
             httpResult.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
+        public async void Given_InvalidParameters_When_InsertingCar_Then_ReturnBadRequestStatusCode()
+        {
+            //Arrange
+            #region Setups
+            _validationResultMock.Setup(setup => setup.IsValid).Returns(false);
+            _carValidation.Setup(setup => setup.ValidateAsync(It.IsAny<ValidationContext<CarroModel>>(), CancellationToken.None)).ReturnsAsync(_validationResultMock.Object);
+            _carroServices.Setup(setup => setup.CreateCarro(It.IsAny<CarroModel>())).ReturnsAsync(_carFactoryTest.GenerateValidCarModel());
+            #endregion
+            var carro = _carFactoryTest.GenerateValidCarModel();
+            carro.AnoDeFabricacao = "99999";
+
+            //Act
+            var actionResult = await _carroController.CreateCarro(carro);
+
+            //Assert
+            var httpResult = actionResult.Result as BadRequestObjectResult;
+
+            actionResult.Should().NotBeNull();
+            httpResult.Should().BeOfType<BadRequestObjectResult>();
+            httpResult.StatusCode.Should().Be(400);
         }
     }
 }
