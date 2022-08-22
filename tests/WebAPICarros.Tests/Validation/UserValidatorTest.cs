@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPICarros.Tests.Validation
 {
-    internal class UserValidatorTest
+    public class UserValidatorTest
     {
     }
 }

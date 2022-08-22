@@ -5,19 +5,23 @@ using System;
 using System.Threading.Tasks;
 using WebAPICarros.Core.Services;
 using WebAPICarros.Domain.Model;
+using WebAPICarros.Domain.Validation;
 
 namespace WebAPICarros.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [EnableCors]
     public class CarroController : Controller
     {
         private readonly ICarroServices _carrosServices;
+        private readonly CarValidation _carValidation;
         
-        public CarroController(ICarroServices carrosServices)
+        public CarroController(ICarroServices carrosServices,
+                               CarValidation carValidation)
         {
             _carrosServices = carrosServices;
+            _carValidation = carValidation;
         }
 
         [HttpPost]
@@ -27,14 +31,15 @@ namespace WebAPICarros.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                var validationResult = _carValidation.ValidateAsync(carro);
+                if (!validationResult.Result.IsValid)
                 {
-                    throw new Exception("Os parâmetros informados são inválidos");
+                    return BadRequest(validationResult.Result.Errors);
                 }
 
                 await _carrosServices.CreateCarro(carro);
 
-                return carro;
+                return Ok(carro);
             }
             catch (Exception e)
             {
@@ -57,7 +62,7 @@ namespace WebAPICarros.Controllers
 
                 var carroResponse = await _carrosServices.GetCarroByIdAsync(id);
 
-                return carroResponse;
+                return Ok(carroResponse);
             }
             catch (Exception e)
             {
